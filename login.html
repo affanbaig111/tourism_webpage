@@ -1,0 +1,44 @@
+<html> <head> <link rel="stylesheet" href="login1.css" type="text/css">
+<title>Login_Page</title>
+  <style>
+body {
+  background-image: url('logo.png');
+}
+</style>
+</head>
+<body bgcolor="gray"><center>
+            <h1 >  Login Page       </h1>
+<h3>
+Name:     <input type="text" placeholder="Enter Name"><br><br>
+Password: <input type="text" placeholder="Password"><br><br>
+          <td>
+          <center> <div class="banner-btn"> 
+       
+         
+            <a href="#"> <span></span>SUBMIT </a>
+            <a href="register.html"> <span></span>REGISTER </a>
+         
+      </div>
+        </td>
+</h3></center>
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+</body></html>

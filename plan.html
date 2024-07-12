@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Places near me</title>
+  <style>
+    body{
+      background-image: url('logo.png');
+      background-repeat: no-repeat;
+      background-size:100% 400%;
+      
+    }
+  </style>
+</head>
+
+<body>
+  <button onclick="getLocation()">Click here to get the Latitude and Longitude of your current location</button>
+
+  <p id="demo"></p>
+
+  <script>
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      x.innerHTML = "Latitude: " + position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+    }
+  </script>
+  <form id="foursquare-form">
+    <label for="latitude">Latitude:</label>
+    <input type="text" id="latitude" name="latitude"><br><br>
+    <label for="longitude">Longitude:</label>
+    <input type="text" id="longitude" name="longitude"><br><br>
+    <label for="radius">Radius (in meters):</label>
+    <input type="text" id="radius" name="radius"><br><br>
+    <input type="submit" value="Get Places">
+  </form>
+
+  <div id="places-container"></div>
+
+  <script>
+    const form = document.querySelector('#foursquare-form');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const latitude = form.elements.latitude.value;
+      const longitude = form.elements.longitude.value;
+      const radius = form.elements.radius.value;
+
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'fsq3dFDuF2Ac+u5I1tv07gcXO/sTtSFa+RtrFdwJ+zACXr4='
+        }
+      };
+
+      const url = `https://api.foursquare.com/v3/places/nearby?ll=${latitude},${longitude}&radius=${radius}`;
+
+      try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        console.log(data);
+        // display data on the page
+        const placesContainer = document.querySelector('#places-container');
+        placesContainer.innerHTML = JSON.stringify(data);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+
+</html>
